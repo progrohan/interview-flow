@@ -26,5 +26,22 @@ public class ProfessionService {
                 .toList();
     }
 
+    public ProfessionResponseDto getProfessionById(Long id) {
+
+        Profession profession = professionRepository
+                .findById(id)
+                .orElseThrow(() -> new RuntimeException("No profession with id - " + id));
+
+        return professionMapper.toDto(profession);
+    }
+
+    public ProfessionResponseDto createProfession(String professionName) {
+        Profession profession = new Profession();
+        profession.setName(professionName);
+        profession = professionRepository.saveAndFlush(profession);
+        String ebat= "ebat";
+        return professionMapper.toDto(profession);
+    }
+
 
 }

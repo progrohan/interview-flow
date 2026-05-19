@@ -1,13 +1,19 @@
 package com.progrohan.interview_flow.controller;
 
+import com.progrohan.interview_flow.dto.ProfessionRequestDto;
 import com.progrohan.interview_flow.dto.ProfessionResponseDto;
 import com.progrohan.interview_flow.service.ProfessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @RestController()
@@ -22,6 +28,23 @@ public class ProfessionController {
 
         return ResponseEntity.ok(professionService.getAllProfessions());
 
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProfessionResponseDto> getProfession(@PathVariable Long id) {
+
+        return ResponseEntity.ok(professionService.getProfessionById(id));
+
+    }
+
+    @PostMapping
+    public ResponseEntity<ProfessionResponseDto> createProfession(@RequestBody ProfessionRequestDto professionDto) throws URISyntaxException {
+
+        ProfessionResponseDto profession = professionService.createProfession(professionDto.name());
+
+        return ResponseEntity
+                .created(new URI("/api/profession/" + profession.id()))
+                .body(profession);
     }
 
 
