@@ -39,8 +39,17 @@ public class ProfessionService {
         Profession profession = new Profession();
         profession.setName(professionName);
         profession = professionRepository.saveAndFlush(profession);
-        String ebat= "ebat";
         return professionMapper.toDto(profession);
+    }
+
+    public void deleteProfession(Long id) {
+
+        if (!professionRepository.existsById(id)) {
+            throw new RuntimeException("No profession with id - " + id);
+        }
+
+        professionRepository.deleteById(id);
+
     }
 
 
