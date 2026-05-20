@@ -3,8 +3,10 @@ package com.progrohan.interview_flow.service;
 
 import com.progrohan.interview_flow.dto.TopicRequestDto;
 import com.progrohan.interview_flow.dto.TopicResponseDto;
+import com.progrohan.interview_flow.entity.Profession;
 import com.progrohan.interview_flow.entity.Topic;
 import com.progrohan.interview_flow.mapper.TopicMapper;
+import com.progrohan.interview_flow.repository.ProfessionRepository;
 import com.progrohan.interview_flow.repository.TopicRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TopicService {
 
+    public final ProfessionRepository professionRepository;
     public final TopicRepository topicRepository;
     public final TopicMapper topicMapper;
 
@@ -39,7 +42,11 @@ public class TopicService {
 
     public TopicResponseDto createTopic(TopicRequestDto topicRequestDto) {
 
-        Topic topic = topicMapper.toEntity(topicRequestDto);
+        Profession profession = professionRepository
+                .findById(topicRequestDto.profession_id())
+                .orElseThrow(() -> new RuntimeException("Profession not found"));
+
+        Topic topic = topicMapper.toEntity(topicRequestDto, profession);
 
 
         topic = topicRepository.saveAndFlush(topic);
