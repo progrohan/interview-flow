@@ -122,3 +122,39 @@ databaseChangeLog:
                   type: BOOLEAN
                   constraints:
                     nullable: false
+
+  - changeSet:
+      id: 5-create-text-answer-rules
+      author: progrohan
+      changes:
+        - createTable:
+            tableName: text_answer_rules
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_text_answer_rules
+                    nullable: false
+              - column:
+                  name: question_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    unique: true
+                    foreignKeyName: fk_text_answer_rules_question
+                    references: questions(id)
+                    deleteCascade: true
+              - column:
+                  name: keywords_json
+                  type: TEXT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: min_matches
+                  type: INT
+                  defaultValueNumeric: 1
+                  constraints:
+                    nullable: false
