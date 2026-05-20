@@ -50,9 +50,9 @@ public class ProfessionController {
                 .body(profession);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteProfession(@RequestBody Long id){
+    public void deleteProfession(@PathVariable Long id){
 
         professionService.deleteProfession(id);
 
