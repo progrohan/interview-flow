@@ -13,6 +13,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class QuestionService {
@@ -38,6 +40,18 @@ public class QuestionService {
         return questionMapper.toDto(save);
     }
 
+    public List<Long> getRandomQuestionIds(Long profession){
+
+        professionRepository.findById(profession)
+                .orElseThrow(() -> new RuntimeException("Profession not found"));
+
+        return questionRepository.findRandomQuestionIds(profession);
+
+    }
+
+
+
+
     public QuestionResponseDto findById(Long id) {
 
         Question questionNotFound = questionRepository
@@ -45,6 +59,14 @@ public class QuestionService {
                 .orElseThrow(() -> new RuntimeException("Question not found"));
 
         return questionMapper.toDto(questionNotFound);
+    }
+
+    public Question findEntityById(Long id) {
+
+        return questionRepository
+                .findById(id)
+                .orElseThrow(() -> new RuntimeException("Question not found"));
+
     }
 
     public void delete(Long id) {
