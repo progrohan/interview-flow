@@ -1,6 +1,6 @@
 package com.progrohan.interview_flow.controller;
 
-import com.progrohan.interview_flow.dto.ProfessionRequestDto;
+import com.progrohan.interview_flow.dto.ProfessionCreateRequestDto;
 import com.progrohan.interview_flow.dto.ProfessionResponseDto;
 import com.progrohan.interview_flow.service.ProfessionService;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +41,7 @@ public class ProfessionController {
     }
 
     @PostMapping
-    public ResponseEntity<ProfessionResponseDto> createProfession(@RequestBody ProfessionRequestDto professionDto) throws URISyntaxException {
+    public ResponseEntity<ProfessionResponseDto> createProfession(@RequestBody ProfessionCreateRequestDto professionDto) throws URISyntaxException {
 
         ProfessionResponseDto profession = professionService.createProfession(professionDto.name());
 

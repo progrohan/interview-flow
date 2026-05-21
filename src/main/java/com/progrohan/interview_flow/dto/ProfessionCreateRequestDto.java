@@ -1,6 +1,6 @@
 package com.progrohan.interview_flow.dto;
 
-public record ProfessionRequestDto(
+public record ProfessionCreateRequestDto(
         String name
 ) {
 }
