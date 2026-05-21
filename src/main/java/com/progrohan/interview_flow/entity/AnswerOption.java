@@ -30,6 +30,6 @@ public class AnswerOption {
     private String text;
 
     @Column(name = "is_correct")
-    private Boolean isCorrect;
+    private Boolean correct;
 
 }
