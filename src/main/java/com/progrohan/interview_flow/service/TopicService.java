@@ -40,6 +40,14 @@ public class TopicService {
         return topicMapper.toDto(topic);
     }
 
+    public String getTopicNameById(Long id) {
+
+        return topicRepository.findById(id)
+                .map(Topic::getName)
+                .orElseThrow(() -> new RuntimeException("No topic with id"));
+
+    }
+
     public TopicResponseDto createTopic(TopicRequestDto topicRequestDto) {
 
         Profession profession = professionRepository
