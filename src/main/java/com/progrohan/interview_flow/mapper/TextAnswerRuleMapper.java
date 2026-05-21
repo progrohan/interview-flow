@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.progrohan.interview_flow.dto.TextAnswerRuleRequestDto;
 import com.progrohan.interview_flow.dto.TextAnswerRuleResponseDto;
 import com.progrohan.interview_flow.entity.TextAnswerRule;
+import com.progrohan.interview_flow.exception.InvalidStoredJsonException;
+import java.util.Collections;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -28,17 +30,17 @@ public interface TextAnswerRuleMapper {
             return new ObjectMapper()
                     .writeValueAsString(keywords);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to serialize keywords", e);
+            throw new InvalidStoredJsonException("Failed to serialize keywords");
         }
     }
     default List<String> map(String json) {
-        if (json == null) return null;
+        if (json == null) return Collections.emptyList();
 
         try {
             return new ObjectMapper()
-                    .readValue(json, new TypeReference<List<String>>() {});
+                    .readValue(json, new TypeReference<>() {});
         } catch (Exception e) {
-            throw new RuntimeException("Failed to parse keywordsJson", e);
+            throw new InvalidStoredJsonException("Failed to parse keywordsJson");
         }
     }
 

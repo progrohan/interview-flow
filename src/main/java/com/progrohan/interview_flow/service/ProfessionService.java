@@ -2,6 +2,7 @@ package com.progrohan.interview_flow.service;
 
 import com.progrohan.interview_flow.dto.ProfessionResponseDto;
 import com.progrohan.interview_flow.entity.Profession;
+import com.progrohan.interview_flow.exception.ResourceNotFoundException;
 import com.progrohan.interview_flow.mapper.ProfessionMapper;
 import com.progrohan.interview_flow.repository.ProfessionRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +31,7 @@ public class ProfessionService {
 
         Profession profession = professionRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("No profession with id - " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("No profession with id - " + id));
 
         return professionMapper.toDto(profession);
     }
@@ -45,7 +46,7 @@ public class ProfessionService {
     public void deleteProfession(Long id) {
 
         if (!professionRepository.existsById(id)) {
-            throw new RuntimeException("No profession with id - " + id);
+            throw new ResourceNotFoundException("No profession with id - " + id);
         }
 
         professionRepository.deleteById(id);

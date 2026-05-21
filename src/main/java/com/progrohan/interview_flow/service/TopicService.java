@@ -5,6 +5,7 @@ import com.progrohan.interview_flow.dto.TopicRequestDto;
 import com.progrohan.interview_flow.dto.TopicResponseDto;
 import com.progrohan.interview_flow.entity.Profession;
 import com.progrohan.interview_flow.entity.Topic;
+import com.progrohan.interview_flow.exception.ResourceNotFoundException;
 import com.progrohan.interview_flow.mapper.TopicMapper;
 import com.progrohan.interview_flow.repository.ProfessionRepository;
 import com.progrohan.interview_flow.repository.TopicRepository;
@@ -35,7 +36,7 @@ public class TopicService {
 
         Topic topic = topicRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("No topic with id"));
+                .orElseThrow(() -> new ResourceNotFoundException("No topic with id"));
 
         return topicMapper.toDto(topic);
     }
@@ -44,7 +45,7 @@ public class TopicService {
 
         return topicRepository.findById(id)
                 .map(Topic::getName)
-                .orElseThrow(() -> new RuntimeException("No topic with id"));
+                .orElseThrow(() -> new ResourceNotFoundException("No topic with id"));
 
     }
 
@@ -52,7 +53,7 @@ public class TopicService {
 
         Profession profession = professionRepository
                 .findById(topicRequestDto.profession_id())
-                .orElseThrow(() -> new RuntimeException("Profession not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Profession not found"));
 
         Topic topic = topicMapper.toEntity(topicRequestDto, profession);
 
@@ -66,7 +67,7 @@ public class TopicService {
     public void deleteTopic(Long id){
 
         if (!topicRepository.existsById(id)) {
-            throw new RuntimeException("Topic not found");
+            throw new ResourceNotFoundException("Topic not found");
         }
 
         topicRepository.deleteById(id);

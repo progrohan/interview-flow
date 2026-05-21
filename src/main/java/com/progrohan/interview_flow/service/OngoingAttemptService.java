@@ -6,6 +6,8 @@ import com.progrohan.interview_flow.entity.Question;
 import com.progrohan.interview_flow.dto.QuestionResponseDto;
 import com.progrohan.interview_flow.dto.SafeQuestionDto;
 import com.progrohan.interview_flow.dto.TopicMistakeDto;
+import com.progrohan.interview_flow.exception.AttemptNotEndedException;
+import com.progrohan.interview_flow.exception.ResourceNotFoundException;
 import com.progrohan.interview_flow.mapper.SafeQuestionMapper;
 import com.progrohan.interview_flow.model.AttemptStatus;
 import com.progrohan.interview_flow.model.OngoingAttempt;
@@ -67,7 +69,7 @@ public class OngoingAttemptService {
 
            Question question = questionService.findEntityById((long) currentQuestionIdx);
 
-            return questionEvaluationService.validate(question, userAnswer, !checkIfEnded(uuid));
+            return questionEvaluationService.validate(question, userAnswer, checkIfNotEnded(uuid));
 
         }
 
@@ -87,7 +89,7 @@ public class OngoingAttemptService {
 
         public AttemptResultDto getResult(UUID uuid){
 
-            if (!checkIfEnded(uuid)) throw new RuntimeException("Attempt has not ended");
+            if (checkIfNotEnded(uuid)) throw new AttemptNotEndedException("Attempt has not ended") ;
 
             OngoingAttempt attempt = ongoingAttempts.get(uuid);
             int totalQuestions = attempt.getQuestionIds().size();
@@ -141,11 +143,11 @@ public class OngoingAttemptService {
 
         }
 
-        public boolean checkIfEnded(UUID uuid) {
+        public boolean checkIfNotEnded(UUID uuid) {
 
             OngoingAttempt attempt = ongoingAttempts.get(uuid);
 
-            return attempt.getStatus() == AttemptStatus.COMPLETED;
+            return attempt.getStatus() != AttemptStatus.COMPLETED;
 
         }
 
@@ -153,7 +155,7 @@ public class OngoingAttemptService {
         public OngoingAttempt getOngoingAttempt(UUID uuid) {
 
             if(!ongoingAttempts.containsKey(uuid)){
-                throw new RuntimeException("OngoingAttempt not found");
+                throw new ResourceNotFoundException("OngoingAttempt not found");
             }
 
             return ongoingAttempts.get(uuid);

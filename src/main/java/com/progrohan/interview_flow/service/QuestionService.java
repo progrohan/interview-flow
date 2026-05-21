@@ -5,6 +5,7 @@ import com.progrohan.interview_flow.dto.QuestionResponseDto;
 import com.progrohan.interview_flow.entity.Profession;
 import com.progrohan.interview_flow.entity.Question;
 import com.progrohan.interview_flow.entity.Topic;
+import com.progrohan.interview_flow.exception.ResourceNotFoundException;
 import com.progrohan.interview_flow.mapper.QuestionMapper;
 import com.progrohan.interview_flow.repository.ProfessionRepository;
 import com.progrohan.interview_flow.repository.QuestionRepository;
@@ -28,10 +29,10 @@ public class QuestionService {
     public QuestionResponseDto create(QuestionRequestDto dto) {
 
         Profession profession = professionRepository.findById(dto.professionId())
-                .orElseThrow(() -> new RuntimeException("Profession not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Profession not found"));
 
         Topic topic = topicRepository.findById(dto.topicId())
-                .orElseThrow(() -> new RuntimeException("Topic not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Topic not found"));
 
         Question question = questionMapper.toEntity(dto, profession, topic);
 
@@ -43,7 +44,7 @@ public class QuestionService {
     public List<Long> getRandomQuestionIds(Long profession){
 
         professionRepository.findById(profession)
-                .orElseThrow(() -> new RuntimeException("Profession not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Profession not found"));
 
         return questionRepository.findRandomQuestionIds(profession);
 
@@ -56,7 +57,7 @@ public class QuestionService {
 
         Question questionNotFound = questionRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("Question not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Question not found"));
 
         return questionMapper.toDto(questionNotFound);
     }
@@ -65,13 +66,13 @@ public class QuestionService {
 
         return questionRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("Question not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Question not found"));
 
     }
 
     public void delete(Long id) {
         if (!questionRepository.existsById(id)) {
-            throw new RuntimeException("No question with id - " + id);
+            throw new ResourceNotFoundException("No question with id - " + id);
         }
 
         questionRepository.deleteById(id);

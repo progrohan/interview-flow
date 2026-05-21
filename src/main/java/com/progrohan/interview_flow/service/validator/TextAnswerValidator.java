@@ -8,6 +8,7 @@ import com.progrohan.interview_flow.dto.ValidationResultDto;
 import com.progrohan.interview_flow.entity.Question;
 import com.progrohan.interview_flow.entity.QuestionType;
 import com.progrohan.interview_flow.entity.TextAnswerRule;
+import com.progrohan.interview_flow.exception.InvalidStoredJsonException;
 import org.springframework.stereotype.Component;
 
 
@@ -36,9 +37,9 @@ public class TextAnswerValidator implements AnswerValidator {
         Set<String> keywords;
 
         try{
-            keywords = mapper.readValue(rule.getKeywordsJson(), new TypeReference<Set<String>>() {});
+            keywords = mapper.readValue(rule.getKeywordsJson(), new TypeReference<>() {});
         }catch(JsonProcessingException e){
-            throw new RuntimeException("problem with mapping json");
+            throw new InvalidStoredJsonException("Problem with mapping while reading keywords");
         }
 
         long matches = keywords.stream()
