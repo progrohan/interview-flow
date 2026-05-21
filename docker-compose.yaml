@@ -17,7 +17,7 @@ services:
 
   db:
     image: postgres:latest
-    container_name: postgres-file-storage
+    container_name: postgres-interview-flow
     restart: always
     environment:
       POSTGRES_DB: ${DB_NAME}
@@ -31,5 +31,5 @@ services:
 
 networks:
   app-network:
-    name: app-network
+    name: interview-network
     driver: bridge
