@@ -18,7 +18,7 @@ repositories {
 }
 
 val mapstructVersion = "1.6.3"
-val springDocVersion = "2.5.0"
+val springDocVersion = "2.8.5"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
