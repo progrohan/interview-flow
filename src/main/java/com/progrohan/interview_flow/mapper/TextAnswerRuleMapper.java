@@ -1,5 +1,6 @@
 package com.progrohan.interview_flow.mapper;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.progrohan.interview_flow.dto.TextAnswerRuleRequestDto;
 import com.progrohan.interview_flow.dto.TextAnswerRuleResponseDto;
@@ -34,8 +35,8 @@ public interface TextAnswerRuleMapper {
         if (json == null) return null;
 
         try {
-            return new com.fasterxml.jackson.databind.ObjectMapper()
-                    .readValue(json, new com.fasterxml.jackson.core.type.TypeReference<List<String>>() {});
+            return new ObjectMapper()
+                    .readValue(json, new TypeReference<List<String>>() {});
         } catch (Exception e) {
             throw new RuntimeException("Failed to parse keywordsJson", e);
         }
