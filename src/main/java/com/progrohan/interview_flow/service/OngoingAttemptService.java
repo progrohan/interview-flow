@@ -85,9 +85,11 @@ public class OngoingAttemptService {
     public SafeQuestionDto nextQuestion(UUID uuid) {
         OngoingAttempt attempt = getOngoingAttempt(uuid);
         int currentQuestionIdx = attempt.getCurrentQuestionIndex();
+        Long questionId = attempt.getQuestionIds().get(currentQuestionIdx);
+
 
         QuestionResponseDto byId = questionService
-                .findById(attempt.getQuestionIds().get(currentQuestionIdx));
+                .findById(questionId);
 
         attempt.setCurrentQuestionIndex(currentQuestionIdx + 1);
         updateStatus(uuid);
@@ -159,7 +161,6 @@ public class OngoingAttemptService {
         return attempt.getStatus() != AttemptStatus.COMPLETED;
 
     }
-
 
     public OngoingAttempt getOngoingAttempt(UUID uuid) {
 
