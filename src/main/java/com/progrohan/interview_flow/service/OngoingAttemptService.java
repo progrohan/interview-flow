@@ -12,8 +12,10 @@ import com.progrohan.interview_flow.mapper.SafeQuestionMapper;
 import com.progrohan.interview_flow.model.AttemptStatus;
 import com.progrohan.interview_flow.model.OngoingAttempt;
 import com.progrohan.interview_flow.model.UserAnswer;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,149 +28,168 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class OngoingAttemptService {
 
-        private final QuestionService questionService;
-        private final QuestionEvaluationService questionEvaluationService;
-        private final SafeQuestionMapper safeQuestionMapper;
-        private final ConcurrentHashMap<UUID, OngoingAttempt> ongoingAttempts;
-        private final TopicService topicService;
+    private final QuestionService questionService;
+    private final QuestionEvaluationService questionEvaluationService;
+    private final TopicService topicService;
+    private final SafeQuestionMapper safeQuestionMapper;
+    
+    private final ConcurrentHashMap<UUID, OngoingAttempt> ongoingAttempts;
 
-        public OngoingAttemptService(QuestionService questionService, QuestionEvaluationService questionEvaluationService, SafeQuestionMapper safeQuestionMapper, TopicService topicService) {
-                this.questionService = questionService;
-                this.questionEvaluationService = questionEvaluationService;
-                this.safeQuestionMapper = safeQuestionMapper;
-                ongoingAttempts = new ConcurrentHashMap<>();
-            this.topicService = topicService;
-        }
+    public OngoingAttemptService(QuestionService questionService, QuestionEvaluationService questionEvaluationService, SafeQuestionMapper safeQuestionMapper, TopicService topicService) {
+        this.questionService = questionService;
+        this.questionEvaluationService = questionEvaluationService;
+        this.safeQuestionMapper = safeQuestionMapper;
+        ongoingAttempts = new ConcurrentHashMap<>();
+        this.topicService = topicService;
+    }
 
-        public UUID createOngoingAttempt(Long professionId) {
+    public UUID createOngoingAttempt(Long professionId) {
 
-            UUID uuid = UUID.randomUUID();
+        UUID uuid = UUID.randomUUID();
 
-            OngoingAttempt attempt = OngoingAttempt
-                    .builder()
-                    .id(uuid)
-                    .professionId(professionId)
-                    .questionIds(questionService.getRandomQuestionIds(professionId))
-                    .currentQuestionIndex(0)
-                    .answers(new HashMap<>())
-                    .status(AttemptStatus.ONGOING)
-                    .startedAt(Instant.now())
-                    .build();
+        OngoingAttempt attempt = OngoingAttempt
+                .builder()
+                .id(uuid)
+                .professionId(professionId)
+                .questionIds(questionService.getRandomQuestionIds(professionId))
+                .currentQuestionIndex(0)
+                .answers(new HashMap<>())
+                .status(AttemptStatus.ONGOING)
+                .startedAt(Instant.now())
+                .build();
 
-            ongoingAttempts.put(uuid, attempt);
+        ongoingAttempts.put(uuid, attempt);
 
-            return attempt.getId();
+        return attempt.getId();
 
-        }
+    }
 
 
-        public ValidationResultDto validateAnswer(UUID uuid, UserAnswer userAnswer) {
+    public ValidationResultDto validateAnswer(UUID uuid, UserAnswer userAnswer) {
 
-            OngoingAttempt attempt = getOngoingAttempt(uuid);
-            int currentQuestionIdx = attempt.getCurrentQuestionIndex();
+        OngoingAttempt attempt = getOngoingAttempt(uuid);
+        int currentQuestionIdx = attempt.getCurrentQuestionIndex();
 
-           Question question = questionService.findEntityById((long) currentQuestionIdx);
+        Question question = questionService.findEntityById((long) currentQuestionIdx);
 
-            ValidationResultDto validate = questionEvaluationService.validate(question, userAnswer, checkIfNotEnded(uuid));
+        ValidationResultDto validate = questionEvaluationService.validate(question, userAnswer, checkIfNotEnded(uuid));
 
-            userAnswer.setCorrect(validate.correct());
+        userAnswer.setCorrect(validate.correct());
 
-            attempt.getAnswers().put(question.getId(), userAnswer);
+        attempt.getAnswers().put(question.getId(), userAnswer);
 
-            return validate;
+        return validate;
 
-        }
+    }
 
-        public SafeQuestionDto nextQuestion(UUID uuid) {
-            OngoingAttempt attempt = getOngoingAttempt(uuid);
-            int currentQuestionIdx = attempt.getCurrentQuestionIndex();
+    public SafeQuestionDto nextQuestion(UUID uuid) {
+        OngoingAttempt attempt = getOngoingAttempt(uuid);
+        int currentQuestionIdx = attempt.getCurrentQuestionIndex();
 
-            QuestionResponseDto byId = questionService
-                    .findById(attempt.getQuestionIds().get(currentQuestionIdx));
+        QuestionResponseDto byId = questionService
+                .findById(attempt.getQuestionIds().get(currentQuestionIdx));
 
-            attempt.setCurrentQuestionIndex(currentQuestionIdx + 1);
-            updateStatus(uuid);
+        attempt.setCurrentQuestionIndex(currentQuestionIdx + 1);
+        updateStatus(uuid);
 
-            return safeQuestionMapper.makeSafe(byId);
+        return safeQuestionMapper.makeSafe(byId);
 
-        }
+    }
 
-        public AttemptResultDto getResult(UUID uuid){
+    public AttemptResultDto getResult(UUID uuid){
 
-            if (checkIfNotEnded(uuid)) throw new AttemptNotEndedException("Attempt has not ended") ;
+        if (checkIfNotEnded(uuid)) throw new AttemptNotEndedException("Attempt has not ended") ;
 
-            OngoingAttempt attempt = ongoingAttempts.get(uuid);
-            int totalQuestions = attempt.getQuestionIds().size();
-            int correctAnswers = (int) attempt
-                    .getAnswers()
-                    .values()
-                    .stream()
-                    .filter(UserAnswer::isCorrect)
-                    .count();
+        OngoingAttempt attempt = ongoingAttempts.get(uuid);
+        int totalQuestions = attempt.getQuestionIds().size();
+        int correctAnswers = (int) attempt
+                .getAnswers()
+                .values()
+                .stream()
+                .filter(UserAnswer::isCorrect)
+                .count();
 
-            double percentage = ((double) correctAnswers / totalQuestions) * 100;
+        double percentage = ((double) correctAnswers / totalQuestions) * 100;
 
-            Map<Long, Integer> mistakesByTopic = new HashMap<>();
+        Map<Long, Integer> mistakesByTopic = new HashMap<>();
 
-            for (UserAnswer answer : attempt.getAnswers().values()) {
-                if (!answer.isCorrect()) {
-                    Long topicId = answer.getTopicId();
+        for (UserAnswer answer : attempt.getAnswers().values()) {
+            if (!answer.isCorrect()) {
+                Long topicId = answer.getTopicId();
 
-                    mistakesByTopic.put(
-                            topicId,
-                            mistakesByTopic.getOrDefault(topicId, 0) + 1
-                    );
-                }
-            }
-            List<TopicMistakeDto> weakTopics = new ArrayList<>();
-
-            for (Map.Entry<Long, Integer> entry : mistakesByTopic.entrySet()) {
-                Long topicId = entry.getKey();
-                Integer count = entry.getValue();
-
-                String topicName = topicService.getTopicNameById(topicId);
-
-                weakTopics.add(new TopicMistakeDto(
+                mistakesByTopic.put(
                         topicId,
-                        topicName,
-                        count
-                ));
+                        mistakesByTopic.getOrDefault(topicId, 0) + 1
+                );
             }
+        }
+        List<TopicMistakeDto> weakTopics = new ArrayList<>();
 
-            return new AttemptResultDto(totalQuestions, correctAnswers, weakTopics, percentage);
+        for (Map.Entry<Long, Integer> entry : mistakesByTopic.entrySet()) {
+            Long topicId = entry.getKey();
+            Integer count = entry.getValue();
 
+            String topicName = topicService.getTopicNameById(topicId);
+
+            weakTopics.add(new TopicMistakeDto(
+                    topicId,
+                    topicName,
+                    count
+            ));
         }
 
-        public void updateStatus(UUID uuid) {
+        return new AttemptResultDto(totalQuestions, correctAnswers, weakTopics, percentage);
 
-            OngoingAttempt attempt = getOngoingAttempt(uuid);
+    }
 
-            if(attempt.getCurrentQuestionIndex() >= attempt.getQuestionIds().size()){
-                attempt.setStatus(AttemptStatus.COMPLETED);
-            }
+    public void updateStatus(UUID uuid) {
 
+        OngoingAttempt attempt = getOngoingAttempt(uuid);
+
+        if(attempt.getCurrentQuestionIndex() >= attempt.getQuestionIds().size()){
+            attempt.setStatus(AttemptStatus.COMPLETED);
         }
 
-        public boolean checkIfNotEnded(UUID uuid) {
+    }
 
-            OngoingAttempt attempt = ongoingAttempts.get(uuid);
+    public boolean checkIfNotEnded(UUID uuid) {
 
-            return attempt.getStatus() != AttemptStatus.COMPLETED;
+        OngoingAttempt attempt = ongoingAttempts.get(uuid);
 
+        return attempt.getStatus() != AttemptStatus.COMPLETED;
+
+    }
+
+
+    public OngoingAttempt getOngoingAttempt(UUID uuid) {
+
+        if(!ongoingAttempts.containsKey(uuid)){
+            throw new ResourceNotFoundException("OngoingAttempt not found");
         }
 
+        return ongoingAttempts.get(uuid);
 
-        public OngoingAttempt getOngoingAttempt(UUID uuid) {
+    }
 
-            if(!ongoingAttempts.containsKey(uuid)){
-                throw new ResourceNotFoundException("OngoingAttempt not found");
-            }
+    @Scheduled(fixedRate = 60000)
+    public void cleanupExpiredAttempts(){
+        Instant now = Instant.now();
+        ongoingAttempts.entrySet().removeIf(entry -> {
 
-            return ongoingAttempts.get(uuid);
+            OngoingAttempt attempt = entry.getValue();
 
-        }
+            boolean expired = attempt.getStartedAt()
+                    .plus(Duration.ofMinutes(30))
+                    .isBefore(now);
 
+            boolean expiredTooMuch = attempt.getStartedAt()
+                    .plus(Duration.ofMinutes(60))
+                    .isBefore(now);
 
+            boolean completed = attempt.getStatus() == AttemptStatus.COMPLETED;
 
+            return expired && completed || expiredTooMuch;
+        });
+    }
 
 }
