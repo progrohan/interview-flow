@@ -46,19 +46,5 @@ public class AuthService {
 
     }
 
-    public UserResponseDto loginUser(UserRequestDto user, HttpSession session) {
-        try {
-            Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.name(), user.password()));
-
-            SecurityContext context = SecurityContextHolder.getContext();
-            context.setAuthentication(auth);
-
-            session.setAttribute("SPRING_SECURITY_CONTEXT", context);
-
-            return userMapper.toResponseDto(user);
-        } catch (AuthenticationException e) {
-            throw new AuthException("Credentials incorrect!");
-        }
-    }
 
 }
