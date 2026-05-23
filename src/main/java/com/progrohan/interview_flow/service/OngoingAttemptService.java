@@ -15,6 +15,7 @@ import com.progrohan.interview_flow.model.UserAnswer;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -32,13 +33,15 @@ public class OngoingAttemptService {
     private final QuestionEvaluationService questionEvaluationService;
     private final TopicService topicService;
     private final SafeQuestionMapper safeQuestionMapper;
+    private final Clock clock;
     
     private final ConcurrentHashMap<UUID, OngoingAttempt> ongoingAttempts;
 
-    public OngoingAttemptService(QuestionService questionService, QuestionEvaluationService questionEvaluationService, SafeQuestionMapper safeQuestionMapper, TopicService topicService) {
+    public OngoingAttemptService(QuestionService questionService, QuestionEvaluationService questionEvaluationService, SafeQuestionMapper safeQuestionMapper, TopicService topicService, Clock clock) {
         this.questionService = questionService;
         this.questionEvaluationService = questionEvaluationService;
         this.safeQuestionMapper = safeQuestionMapper;
+        this.clock = clock;
         ongoingAttempts = new ConcurrentHashMap<>();
         this.topicService = topicService;
     }
@@ -55,7 +58,7 @@ public class OngoingAttemptService {
                 .currentQuestionIndex(0)
                 .answers(new HashMap<>())
                 .status(AttemptStatus.ONGOING)
-                .startedAt(Instant.now())
+                .startedAt(Instant.now(clock))
                 .build();
 
         ongoingAttempts.put(uuid, attempt);
@@ -69,8 +72,9 @@ public class OngoingAttemptService {
 
         OngoingAttempt attempt = getOngoingAttempt(uuid);
         int currentQuestionIdx = attempt.getCurrentQuestionIndex();
+        Long questionId = attempt.getQuestionIds().get(currentQuestionIdx);
 
-        Question question = questionService.findEntityById((long) currentQuestionIdx);
+        Question question = questionService.findEntityById(questionId);
 
         ValidationResultDto validate = questionEvaluationService.validate(question, userAnswer, checkIfNotEnded(uuid));
 
@@ -174,7 +178,7 @@ public class OngoingAttemptService {
 
     @Scheduled(fixedRate = 60000)
     public void cleanupExpiredAttempts(){
-        Instant now = Instant.now();
+        Instant now = Instant.now(clock);
         ongoingAttempts.entrySet().removeIf(entry -> {
 
             OngoingAttempt attempt = entry.getValue();
