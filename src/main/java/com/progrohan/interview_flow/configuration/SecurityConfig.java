@@ -39,10 +39,7 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .authorizeHttpRequests(authorize -> authorize
                         // public
-                        .requestMatchers(
-                                "/api/auth/sign-up",
-                                "/api/auth/sign-in"
-                        ).permitAll()
+                        .requestMatchers("/api/auth/**").permitAll()
                         // swagger
                         .requestMatchers(
                                 "/swagger-ui/**",
