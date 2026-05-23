@@ -2,8 +2,10 @@ package com.progrohan.interview_flow.handler;
 
 import com.progrohan.interview_flow.dto.ExceptionResponseDto;
 import com.progrohan.interview_flow.exception.AttemptNotEndedException;
+import com.progrohan.interview_flow.exception.AuthException;
 import com.progrohan.interview_flow.exception.InvalidStoredJsonException;
 import com.progrohan.interview_flow.exception.ResourceNotFoundException;
+import com.progrohan.interview_flow.exception.UserExistException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -38,7 +40,23 @@ public class ExceptionsHandler {
                 .body(new ExceptionResponseDto(ex.getMessage()));
 
     }
+    @ExceptionHandler(UserExistException.class)
+    public ResponseEntity<ExceptionResponseDto> handleUserExistException(UserExistException ex) {
 
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ExceptionResponseDto(ex.getMessage()));
+
+    }
+
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<ExceptionResponseDto> handleUserExistException(AuthException ex) {
+
+        return ResponseEntity
+                .status(HttpStatus.UNAUTHORIZED)
+                .body(new ExceptionResponseDto(ex.getMessage()));
+
+    }
 
 
 }
