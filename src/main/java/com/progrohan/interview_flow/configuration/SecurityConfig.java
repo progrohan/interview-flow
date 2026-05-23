@@ -113,13 +113,5 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    @Bean
-    public AuthenticationProvider authenticationProvider(CustomUserDetailsService userDetailsService,
-                                                         PasswordEncoder encoder) {
-
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
-        provider.setPasswordEncoder(encoder);
-        return provider;
-    }
 
 }
