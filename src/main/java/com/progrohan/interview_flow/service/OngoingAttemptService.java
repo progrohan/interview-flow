@@ -80,7 +80,7 @@ public class OngoingAttemptService {
 
         Question question = questionService.findEntityById(questionId);
 
-        ValidationResultDto validate = questionEvaluationService.validate(question, userAnswer, checkIfNotEnded(uuid));
+        ValidationResultDto validate = questionEvaluationService.validate(question, userAnswer.getAnswer(), checkIfNotEnded(uuid));
 
         userAnswer.setCorrect(validate.correct());
 
