@@ -27,7 +27,7 @@ public class MultipleChoiceValidator implements AnswerValidator {
 
         Set<Long> correctIds = question.getAnswerOptions()
                 .stream()
-                .filter(AnswerOption::getCorrect)
+                .filter(AnswerOption::getIsCorrect)
                 .map(AnswerOption::getId)
                 .collect(Collectors.toSet());
 

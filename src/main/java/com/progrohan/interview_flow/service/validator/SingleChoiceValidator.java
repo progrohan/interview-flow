@@ -21,7 +21,7 @@ public class SingleChoiceValidator implements AnswerValidator {
         boolean correct = question.getAnswerOptions()
                 .stream()
                 .anyMatch(opt ->
-                        opt.getId().equals(selectedOptionId) && opt.getCorrect()
+                        opt.getId().equals(selectedOptionId) && opt.getIsCorrect()
                 );
 
         return new ValidationResultDto(
