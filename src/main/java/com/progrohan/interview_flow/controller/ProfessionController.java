@@ -2,10 +2,12 @@ package com.progrohan.interview_flow.controller;
 
 import com.progrohan.interview_flow.dto.ProfessionCreateRequestDto;
 import com.progrohan.interview_flow.dto.ProfessionResponseDto;
+import com.progrohan.interview_flow.model.CustomUserDetails;
 import com.progrohan.interview_flow.service.ProfessionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,21 +29,21 @@ public class ProfessionController {
     private final ProfessionService professionService;
 
     @GetMapping
-    public ResponseEntity<List<ProfessionResponseDto>> getProfessions() {
+    public ResponseEntity<List<ProfessionResponseDto>> getProfessions(@AuthenticationPrincipal CustomUserDetails userDetails) {
 
         return ResponseEntity.ok(professionService.getAllProfessions());
 
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProfessionResponseDto> getProfession(@PathVariable Long id) {
+    public ResponseEntity<ProfessionResponseDto> getProfession(@PathVariable Long id, @AuthenticationPrincipal CustomUserDetails userDetails) {
 
         return ResponseEntity.ok(professionService.getProfessionById(id));
 
     }
 
     @PostMapping
-    public ResponseEntity<ProfessionResponseDto> createProfession(@RequestBody ProfessionCreateRequestDto professionDto) throws URISyntaxException {
+    public ResponseEntity<ProfessionResponseDto> createProfession(@RequestBody ProfessionCreateRequestDto professionDto, @AuthenticationPrincipal CustomUserDetails userDetails) throws URISyntaxException {
 
         ProfessionResponseDto profession = professionService.createProfession(professionDto.name());
 
@@ -52,7 +54,7 @@ public class ProfessionController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteProfession(@PathVariable Long id){
+    public void deleteProfession(@PathVariable Long id, @AuthenticationPrincipal CustomUserDetails userDetails){
 
         professionService.deleteProfession(id);
 

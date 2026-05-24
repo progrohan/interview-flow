@@ -31,22 +31,26 @@ public class OngoingAttemptService {
 
     private final QuestionService questionService;
     private final QuestionEvaluationService questionEvaluationService;
+    private final ReviewQuestionSelector reviewQuestionSelector;
+    private final ReviewService reviewService;
     private final TopicService topicService;
     private final SafeQuestionMapper safeQuestionMapper;
     private final Clock clock;
     
     private final ConcurrentHashMap<UUID, OngoingAttempt> ongoingAttempts;
 
-    public OngoingAttemptService(QuestionService questionService, QuestionEvaluationService questionEvaluationService, SafeQuestionMapper safeQuestionMapper, TopicService topicService, Clock clock) {
+    public OngoingAttemptService(QuestionService questionService, QuestionEvaluationService questionEvaluationService, ReviewQuestionSelector reviewQuestionSelector, ReviewService reviewService, SafeQuestionMapper safeQuestionMapper, TopicService topicService, Clock clock) {
         this.questionService = questionService;
         this.questionEvaluationService = questionEvaluationService;
+        this.reviewQuestionSelector = reviewQuestionSelector;
+        this.reviewService = reviewService;
         this.safeQuestionMapper = safeQuestionMapper;
         this.clock = clock;
         ongoingAttempts = new ConcurrentHashMap<>();
         this.topicService = topicService;
     }
 
-    public UUID createOngoingAttempt(Long professionId) {
+    public UUID createOngoingAttempt(Long professionId, Long userId) {
 
         UUID uuid = UUID.randomUUID();
 
@@ -54,7 +58,7 @@ public class OngoingAttemptService {
                 .builder()
                 .id(uuid)
                 .professionId(professionId)
-                .questionIds(questionService.getRandomQuestionIds(professionId))
+                .questionIds(reviewQuestionSelector.selectQuestions(userId, professionId, 7))
                 .currentQuestionIndex(0)
                 .answers(new HashMap<>())
                 .status(AttemptStatus.ONGOING)
@@ -68,7 +72,7 @@ public class OngoingAttemptService {
     }
 
 
-    public ValidationResultDto validateAnswer(UUID uuid, UserAnswer userAnswer) {
+    public ValidationResultDto validateAnswer(UUID uuid, Long userId, UserAnswer userAnswer) {
 
         OngoingAttempt attempt = getOngoingAttempt(uuid);
         int currentQuestionIdx = attempt.getCurrentQuestionIndex();
@@ -81,6 +85,12 @@ public class OngoingAttemptService {
         userAnswer.setCorrect(validate.correct());
 
         attempt.getAnswers().put(question.getId(), userAnswer);
+
+        reviewService.processAnswer(
+                userId,
+                questionId,
+                validate.correct()
+        );
 
         return validate;
 

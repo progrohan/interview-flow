@@ -2,10 +2,12 @@ package com.progrohan.interview_flow.controller;
 
 import com.progrohan.interview_flow.dto.QuestionRequestDto;
 import com.progrohan.interview_flow.dto.QuestionResponseDto;
+import com.progrohan.interview_flow.model.CustomUserDetails;
 import com.progrohan.interview_flow.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +28,7 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @PostMapping
-    public ResponseEntity<QuestionResponseDto> createQuestion(@RequestBody QuestionRequestDto question) throws URISyntaxException {
+    public ResponseEntity<QuestionResponseDto> createQuestion(@RequestBody QuestionRequestDto question, @AuthenticationPrincipal CustomUserDetails userDetails) throws URISyntaxException {
 
         QuestionResponseDto questionResponseDto = questionService.create(question);
 
@@ -37,7 +39,7 @@ public class QuestionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<QuestionResponseDto> getQuestionById(@PathVariable Long id)  {
+    public ResponseEntity<QuestionResponseDto> getQuestionById(@PathVariable Long id, @AuthenticationPrincipal CustomUserDetails userDetails)  {
 
         return ResponseEntity.ok( questionService.findById(id));
 
@@ -45,7 +47,7 @@ public class QuestionController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteQuestionById(@PathVariable Long id)  {
+    public void deleteQuestionById(@PathVariable Long id, @AuthenticationPrincipal CustomUserDetails userDetails)  {
 
         questionService.delete(id);
 
