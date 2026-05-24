@@ -1,4 +1,5 @@
 databaseChangeLog:
+
   - changeSet:
       id: 1-create-professions
       author: progrohan
@@ -18,6 +19,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     unique: true
+
   - changeSet:
       id: 2-create-topics
       author: progrohan
@@ -136,17 +138,12 @@ databaseChangeLog:
                   autoIncrement: true
                   constraints:
                     primaryKey: true
-                    primaryKeyName: pk_text_answer_rules
-                    nullable: false
               - column:
                   name: question_id
                   type: BIGINT
                   constraints:
                     nullable: false
                     unique: true
-                    foreignKeyName: fk_text_answer_rules_question
-                    references: questions(id)
-                    deleteCascade: true
               - column:
                   name: keywords_json
                   type: TEXT
@@ -157,10 +154,10 @@ databaseChangeLog:
                   type: INT
                   defaultValueNumeric: 1
                   constraints:
-                      nullable: false
+                    nullable: false
 
   - changeSet:
-      id: 6-create-users-table
+      id: 6-create-users
       author: progrohan
       changes:
         - createTable:
@@ -172,7 +169,6 @@ databaseChangeLog:
                   autoIncrement: true
                   constraints:
                     primaryKey: true
-                    nullable: false
               - column:
                   name: name
                   type: VARCHAR(255)
@@ -192,7 +188,7 @@ databaseChangeLog:
               - column:
                   name: enabled
                   type: BOOLEAN
-                  defaultValueComputed: true
+                  defaultValueBoolean: true
                   constraints:
                     nullable: false
               - column:
@@ -201,6 +197,7 @@ databaseChangeLog:
                   defaultValueComputed: CURRENT_TIMESTAMP
                   constraints:
                     nullable: false
+
   - changeSet:
       id: 7-insert-admin-user
       author: progrohan
@@ -210,13 +207,13 @@ databaseChangeLog:
             columns:
               - column:
                   name: name
-                  value: admin
+                  value: "admin"
               - column:
                   name: password
                   value: "$2a$12$qY0lMM634W6tCr/x1GPojOmObNEdI3qAJ0M8niUgidBGS8nT3NK.C"
               - column:
                   name: role
-                  value: ROLE_ADMIN
+                  value: "ROLE_ADMIN"
               - column:
                   name: enabled
                   valueBoolean: true
@@ -236,15 +233,12 @@ databaseChangeLog:
                   valueNumeric: 1
               - column:
                   name: name
-                  value: Frontend-разработчик
-
-        # ================= TOPICS =================
+                  value: "Frontend-разработчик"
 
   - changeSet:
       id: 2-seed-topics
       author: progrohan
       changes:
-
         - insert:
             tableName: topics
             columns:
@@ -253,7 +247,7 @@ databaseChangeLog:
                   valueNumeric: 1
               - column:
                   name: name
-                  value: Основы JavaScript
+                  value: "Основы JavaScript"
               - column:
                   name: profession_id
                   valueNumeric: 1
@@ -266,7 +260,7 @@ databaseChangeLog:
                   valueNumeric: 2
               - column:
                   name: name
-                  value: Асинхронность
+                  value: "Асинхронность"
               - column:
                   name: profession_id
                   valueNumeric: 1
@@ -279,65 +273,21 @@ databaseChangeLog:
                   valueNumeric: 3
               - column:
                   name: name
-                  value: React
+                  value: "React"
               - column:
                   name: profession_id
                   valueNumeric: 1
-
-        - insert:
-            tableName: topics
-            columns:
-              - column:
-                  name: id
-                  valueNumeric: 4
-              - column:
-                  name: name
-                  value: DOM
-              - column:
-                  name: profession_id
-                  valueNumeric: 1
-
-        - insert:
-            tableName: topics
-            columns:
-              - column:
-                  name: id
-                  valueNumeric: 5
-              - column:
-                  name: name
-                  value: Инструменты
-              - column:
-                  name: profession_id
-                  valueNumeric: 1
-
-        - insert:
-            tableName: topics
-            columns:
-              - column:
-                  name: id
-                  valueNumeric: 6
-              - column:
-                  name: name
-                  value: TypeScript
-              - column:
-                  name: profession_id
-                  valueNumeric: 1
-
-  # ================= QUESTIONS =================
 
   - changeSet:
       id: 3-seed-questions
       author: progrohan
       changes:
-
-        # JS (1–8)
-
         - insert:
             tableName: questions
             columns:
               - column: { name: id, valueNumeric: 1 }
-              - column: { name: text, value: typeof null }
-              - column: { name: type, value: SINGLE }
+              - column: { name: text, value: "typeof null" }
+              - column: { name: type, value: "SINGLE" }
               - column: { name: profession_id, valueNumeric: 1 }
               - column: { name: topic_id, valueNumeric: 1 }
 
@@ -346,7 +296,7 @@ databaseChangeLog:
             columns:
               - column: { name: id, valueNumeric: 2 }
               - column: { name: text, value: "[] == false" }
-              - column: { name: type, value: SINGLE }
+              - column: { name: type, value: "SINGLE" }
               - column: { name: profession_id, valueNumeric: 1 }
               - column: { name: topic_id, valueNumeric: 1 }
 
@@ -354,8 +304,8 @@ databaseChangeLog:
             tableName: questions
             columns:
               - column: { name: id, valueNumeric: 3 }
-              - column: { name: text, value: this в стрелочной функции }
-              - column: { name: type, value: SINGLE }
+              - column: { name: text, value: "this в стрелочной функции" }
+              - column: { name: type, value: "SINGLE" }
               - column: { name: profession_id, valueNumeric: 1 }
               - column: { name: topic_id, valueNumeric: 1 }
 
@@ -363,478 +313,255 @@ databaseChangeLog:
             tableName: questions
             columns:
               - column: { name: id, valueNumeric: 4 }
-              - column: { name: text, value: Falsy значения JS }
-              - column: { name: type, value: MULTIPLE }
+              - column: { name: text, value: "Falsy значения JS" }
+              - column: { name: type, value: "MULTIPLE" }
               - column: { name: profession_id, valueNumeric: 1 }
               - column: { name: topic_id, valueNumeric: 1 }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 5 }
-              - column: { name: text, value: Замыкания }
-              - column: { name: type, value: MULTIPLE }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 1 }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 6 }
-              - column: { name: text, value: Set ES6 }
-              - column: { name: type, value: TEXT }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 1 }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 7 }
-              - column: { name: text, value: hoisting }
-              - column: { name: type, value: TEXT }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 1 }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 8 }
-              - column: { name: text, value: yield generator }
-              - column: { name: type, value: TEXT }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 1 }
-
-        # Async (9–10)
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 9 }
-              - column: { name: text, value: Event Loop order }
-              - column: { name: type, value: SINGLE }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 2 }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 10 }
-              - column: { name: text, value: async return }
-              - column: { name: type, value: SINGLE }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 2 }
-
-        # React (11–18)
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 11 }
-              - column: { name: text, value: useEffect }
-              - column: { name: type, value: SINGLE }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 3 }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 12 }
-              - column: { name: text, value: setState same value }
-              - column: { name: type, value: SINGLE }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 3 }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 13 }
-              - column: { name: text, value: React hooks rules }
-              - column: { name: type, value: SINGLE }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 3 }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 14 }
-              - column: { name: text, value: useMemo useCallback useEffect }
-              - column: { name: type, value: MULTIPLE }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 3 }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 15 }
-              - column: { name: text, value: Virtual DOM }
-              - column: { name: type, value: MULTIPLE }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 3 }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 16 }
-              - column: { name: text, value: useMemo hook }
-              - column: { name: type, value: TEXT }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 3 }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 17 }
-              - column: { name: text, value: JSX }
-              - column: { name: type, value: TEXT }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 3 }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 18 }
-              - column: { name: text, value: useRef }
-              - column: { name: type, value: TEXT }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 3 }
-
-        # DOM (19–22)
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 19 }
-              - column: { name: text, value: getElementById null }
-              - column: { name: type, value: SINGLE }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 4 }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 20 }
-              - column: { name: text, value: stopPropagation }
-              - column: { name: type, value: SINGLE }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 4 }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 21 }
-              - column: { name: text, value: DOMContentLoaded defer async }
-              - column: { name: type, value: MULTIPLE }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 4 }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 22 }
-              - column: { name: text, value: event.target }
-              - column: { name: type, value: TEXT }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 4 }
-
-        # Tools (23–25)
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 23 }
-              - column: { name: text, value: git amend }
-              - column: { name: type, value: SINGLE }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 5 }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 24 }
-              - column: { name: text, value: package.json }
-              - column: { name: type, value: TEXT }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 5 }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 25 }
-              - column: { name: text, value: webpack }
-              - column: { name: type, value: TEXT }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 5 }
-
-        # TypeScript (26–27)
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 26 }
-              - column: { name: text, value: any TypeScript }
-              - column: { name: type, value: SINGLE }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 6 }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: id, valueNumeric: 27 }
-              - column: { name: text, value: union type | }
-              - column: { name: type, value: TEXT }
-              - column: { name: profession_id, valueNumeric: 1 }
-              - column: { name: topic_id, valueNumeric: 6 }
-
-  # ================= ANSWER OPTIONS =================
-
   - changeSet:
       id: 4-seed-answer-options
       author: progrohan
       changes:
 
+        # question 1
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 1 }
-              - column: { name: text, value: object }
+              - column: { name: text, value: "object" }
               - column: { name: is_correct, valueBoolean: true }
 
-        - insert:
-            tableName: answer_options
-            columns:
               - column: { name: question_id, valueNumeric: 1 }
-              - column: { name: text, value: null }
+              - column: { name: text, value: "null" }
               - column: { name: is_correct, valueBoolean: false }
 
-        - insert:
-            tableName: answer_options
-            columns:
               - column: { name: question_id, valueNumeric: 1 }
-              - column: { name: text, value: undefined }
+              - column: { name: text, value: "undefined" }
               - column: { name: is_correct, valueBoolean: false }
 
-        # [] == false (2)
+        # question 2
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 2 }
-              - column: { name: text, value: true }
+              - column: { name: text, value: "true" }
               - column: { name: is_correct, valueBoolean: true }
 
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 2 }
-              - column: { name: text, value: false }
+              - column: { name: text, value: "false" }
               - column: { name: is_correct, valueBoolean: false }
 
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 2 }
-              - column: { name: text, value: TypeError }
+              - column: { name: text, value: "TypeError" }
               - column: { name: is_correct, valueBoolean: false }
 
-        # this (3)
+        # question 3
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 3 }
-              - column: { name: text, value: this из внешнего лексического окружения }
+              - column: { name: text, value: "this из внешнего лексического окружения" }
               - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column: { name: question_id, valueNumeric: 3 }
-              - column: { name: text, value: глобальный объект }
-              - column: { name: is_correct, valueBoolean: false }
 
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 3 }
-              - column: { name: text, value: undefined }
-              - column: { name: is_correct, valueBoolean: false }
-
-        # falsy (4)
-        - insert:
-            tableName: answer_options
-            columns:
-              - column: { name: question_id, valueNumeric: 4 }
-              - column: { name: text, value: false }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column: { name: question_id, valueNumeric: 4 }
-              - column: { name: text, value: 0 }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column: { name: question_id, valueNumeric: 4 }
-              - column: { name: text, value: "" }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column: { name: question_id, valueNumeric: 4 }
-              - column: { name: text, value: null }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column: { name: question_id, valueNumeric: 4 }
-              - column: { name: text, value: undefined }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column: { name: question_id, valueNumeric: 4 }
-              - column: { name: text, value: NaN }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column: { name: question_id, valueNumeric: 4 }
-              - column: { name: text, value: { } }
+              - column: { name: text, value: "глобальный объект" }
               - column: { name: is_correct, valueBoolean: false }
 
         - insert:
             tableName: answer_options
             columns:
-              - column: { name: question_id, valueNumeric: 4 }
-              - column: { name: text, value: [ ] }
+              - column: { name: question_id, valueNumeric: 3 }
+              - column: { name: text, value: "undefined" }
               - column: { name: is_correct, valueBoolean: false }
 
-        # closures (5)
+        # question 4 (falsy)
+        - insert:
+            tableName: answer_options
+            columns:
+              - column: { name: question_id, valueNumeric: 4 }
+              - column: { name: text, value: "false" }
+              - column: { name: is_correct, valueBoolean: true }
+
+        - insert:
+            tableName: answer_options
+            columns:
+              - column: { name: question_id, valueNumeric: 4 }
+              - column: { name: text, value: "0" }
+              - column: { name: is_correct, valueBoolean: true }
+
+        - insert:
+            tableName: answer_options
+            columns:
+              - column: { name: question_id, valueNumeric: 4 }
+              - column: { name: text, value: "\"\"" }
+              - column: { name: is_correct, valueBoolean: true }
+
+        - insert:
+            tableName: answer_options
+            columns:
+              - column: { name: question_id, valueNumeric: 4 }
+              - column: { name: text, value: "null" }
+              - column: { name: is_correct, valueBoolean: true }
+
+        - insert:
+            tableName: answer_options
+            columns:
+              - column: { name: question_id, valueNumeric: 4 }
+              - column: { name: text, value: "undefined" }
+              - column: { name: is_correct, valueBoolean: true }
+
+        - insert:
+            tableName: answer_options
+            columns:
+              - column: { name: question_id, valueNumeric: 4 }
+              - column: { name: text, value: "NaN" }
+              - column: { name: is_correct, valueBoolean: true }
+
+        - insert:
+            tableName: answer_options
+            columns:
+              - column: { name: question_id, valueNumeric: 4 }
+              - column: { name: text, value: "{}" }
+              - column: { name: is_correct, valueBoolean: false }
+
+        - insert:
+            tableName: answer_options
+            columns:
+              - column: { name: question_id, valueNumeric: 4 }
+              - column: { name: text, value: "[]" }
+              - column: { name: is_correct, valueBoolean: false }
+
+        # question 5 (closures)
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 5 }
-              - column: { name: text, value: Функция использует внешние переменные }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column: { name: question_id, valueNumeric: 5 }
-              - column: { name: text, value: Функция возвращает другую функцию }
+              - column: { name: text, value: "Функция использует внешние переменные" }
               - column: { name: is_correct, valueBoolean: true }
 
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 5 }
-              - column: { name: text, value: Использование var вместо let }
+              - column: { name: text, value: "Функция возвращает другую функцию" }
+              - column: { name: is_correct, valueBoolean: true }
+
+        - insert:
+            tableName: answer_options
+            columns:
+              - column: { name: question_id, valueNumeric: 5 }
+              - column: { name: text, value: "Использование var вместо let" }
               - column: { name: is_correct, valueBoolean: false }
 
-        # Event Loop (9)
+        # question 9 (event loop)
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 9 }
-              - column: { name: text, value: 1, 4, 3, 2 }
+              - column: { name: text, value: "1, 4, 3, 2" }
               - column: { name: is_correct, valueBoolean: true }
 
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 9 }
-              - column: { name: text, value: 1, 2, 3, 4 }
+              - column: { name: text, value: "1, 2, 3, 4" }
               - column: { name: is_correct, valueBoolean: false }
 
-        # async (10)
+        # question 10 (async)
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 10 }
-              - column: { name: text, value: Promise<undefined> }
+              - column: { name: text, value: "Promise<undefined>" }
               - column: { name: is_correct, valueBoolean: true }
 
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 10 }
-              - column: { name: text, value: undefined }
+              - column: { name: text, value: "undefined" }
               - column: { name: is_correct, valueBoolean: false }
 
-        # React (12–13)
+        # question 12
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 12 }
-              - column: { name: text, value: Компонент не перерендерится при идентичном значении }
+              - column: { name: text, value: "Компонент не перерендерится при идентичном значении" }
               - column: { name: is_correct, valueBoolean: true }
 
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 12 }
-              - column: { name: text, value: Всегда перерендерится }
+              - column: { name: text, value: "Всегда перерендерится" }
               - column: { name: is_correct, valueBoolean: false }
+
+        # question 13
+        - insert:
+            tableName: answer_options
+            columns:
+              - column: { name: question_id, valueNumeric: 13 }
+              - column: { name: text, value: "Хуки нельзя вызывать внутри условий и циклов" }
+              - column: { name: is_correct, valueBoolean: true }
 
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 13 }
-              - column: { name: text, value: Хуки нельзя вызывать внутри условий и циклов }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column: { name: question_id, valueNumeric: 13 }
-              - column: { name: text, value: Хуки можно вызывать в циклах }
+              - column: { name: text, value: "Хуки можно вызывать в циклах" }
               - column: { name: is_correct, valueBoolean: false }
 
-        # DOM (19–20)
+        # question 19
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 19 }
-              - column: { name: text, value: null }
+              - column: { name: text, value: "null" }
               - column: { name: is_correct, valueBoolean: true }
 
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 19 }
-              - column: { name: text, value: TypeError }
+              - column: { name: text, value: "TypeError" }
               - column: { name: is_correct, valueBoolean: false }
 
+        # question 20
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 20 }
-              - column: { name: text, value: stopPropagation }
+              - column: { name: text, value: "stopPropagation" }
               - column: { name: is_correct, valueBoolean: true }
 
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 20 }
-              - column: { name: text, value: preventDefault }
+              - column: { name: text, value: "preventDefault" }
               - column: { name: is_correct, valueBoolean: false }
 
-        # TypeScript (26)
+        # question 26
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 26 }
-              - column: { name: text, value: any }
+              - column: { name: text, value: "any" }
               - column: { name: is_correct, valueBoolean: true }
 
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 26 }
-              - column: { name: text, value: unknown }
+              - column: { name: text, value: "unknown" }
               - column: { name: is_correct, valueBoolean: false }
