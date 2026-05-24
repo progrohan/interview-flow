@@ -11,6 +11,7 @@ public interface UserMapper {
 
     UserResponseDto toDto(User user);
 
+    @Mapping(target = "role", defaultValue = "ROLE_USER")
     UserResponseDto toResponseDto(UserRequestDto userRequestDto);
 
 }
