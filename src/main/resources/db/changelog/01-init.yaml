@@ -231,7 +231,10 @@ databaseChangeLog:
         - insert:
             tableName: professions
             columns:
+              - column: { name: id, valueNumeric: 1 }
               - column: { name: name, value: Frontend-разработчик }
+
+  # ================= TOPICS =================
 
   - changeSet:
       id: 2-seed-topics
@@ -241,604 +244,156 @@ databaseChangeLog:
         - insert:
             tableName: topics
             columns:
+              - column: { name: id, valueNumeric: 1 }
               - column: { name: name, value: Основы JavaScript }
-              - column:
-                  name: profession_id
-                  valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')"
+              - column: { name: profession_id, valueNumeric: 1 }
 
         - insert:
             tableName: topics
             columns:
+              - column: { name: id, valueNumeric: 2 }
               - column: { name: name, value: Асинхронность }
-              - column:
-                  name: profession_id
-                  valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')"
+              - column: { name: profession_id, valueNumeric: 1 }
 
         - insert:
             tableName: topics
             columns:
+              - column: { name: id, valueNumeric: 3 }
               - column: { name: name, value: React }
-              - column:
-                  name: profession_id
-                  valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')"
+              - column: { name: profession_id, valueNumeric: 1 }
 
         - insert:
             tableName: topics
             columns:
+              - column: { name: id, valueNumeric: 4 }
               - column: { name: name, value: DOM }
-              - column:
-                  name: profession_id
-                  valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')"
+              - column: { name: profession_id, valueNumeric: 1 }
 
         - insert:
             tableName: topics
             columns:
+              - column: { name: id, valueNumeric: 5 }
               - column: { name: name, value: Инструменты }
-              - column:
-                  name: profession_id
-                  valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')"
+              - column: { name: profession_id, valueNumeric: 1 }
 
         - insert:
             tableName: topics
             columns:
+              - column: { name: id, valueNumeric: 6 }
               - column: { name: name, value: TypeScript }
-              - column:
-                  name: profession_id
-                  valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')"
+              - column: { name: profession_id, valueNumeric: 1 }
+
+  # ================= QUESTIONS =================
 
   - changeSet:
       id: 3-seed-questions
       author: progrohan
       changes:
 
-        # JS
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "typeof null" }
-              - column: { name: type, value: SINGLE }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='Основы JavaScript')" }
+        # JS (1–8)
 
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "[] == false" }
-              - column: { name: type, value: SINGLE }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='Основы JavaScript')" }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 1 }, { name: text, value: "typeof null" }, { name: type, value: SINGLE }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 1 } ] }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 2 }, { name: text, value: "[] == false" }, { name: type, value: SINGLE }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 1 } ] }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 3 }, { name: text, value: "this в стрелочной функции" }, { name: type, value: SINGLE }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 1 } ] }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 4 }, { name: text, value: "Falsy значения JS" }, { name: type, value: MULTIPLE }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 1 } ] }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 5 }, { name: text, value: "Замыкания" }, { name: type, value: MULTIPLE }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 1 } ] }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 6 }, { name: text, value: "Set ES6" }, { name: type, value: TEXT }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 1 } ] }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 7 }, { name: text, value: "hoisting" }, { name: type, value: TEXT }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 1 } ] }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 8 }, { name: text, value: "yield generator" }, { name: type, value: TEXT }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 1 } ] }
 
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "this в стрелочной функции" }
-              - column: { name: type, value: SINGLE }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='Основы JavaScript')" }
+        # Async (9–10)
 
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "Falsy значения JS" }
-              - column: { name: type, value: MULTIPLE }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='Основы JavaScript')" }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 9 }, { name: text, value: "Event Loop order" }, { name: type, value: SINGLE }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 2 } ] }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 10 }, { name: text, value: "async return" }, { name: type, value: SINGLE }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 2 } ] }
 
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "Замыкания" }
-              - column: { name: type, value: MULTIPLE }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='Основы JavaScript')" }
+        # React (11–18)
 
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "Set ES6" }
-              - column: { name: type, value: TEXT }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='Основы JavaScript')" }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 11 }, { name: text, value: "useEffect" }, { name: type, value: SINGLE }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 3 } ] }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 12 }, { name: text, value: "setState same value" }, { name: type, value: SINGLE }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 3 } ] }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 13 }, { name: text, value: "React hooks rules" }, { name: type, value: SINGLE }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 3 } ] }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 14 }, { name: text, value: "useMemo useCallback useEffect" }, { name: type, value: MULTIPLE }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 3 } ] }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 15 }, { name: text, value: "Virtual DOM" }, { name: type, value: MULTIPLE }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 3 } ] }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 16 }, { name: text, value: "useMemo hook" }, { name: type, value: TEXT }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 3 } ] }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 17 }, { name: text, value: "JSX" }, { name: type, value: TEXT }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 3 } ] }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 18 }, { name: text, value: "useRef" }, { name: type, value: TEXT }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 3 } ] }
 
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "hoisting" }
-              - column: { name: type, value: TEXT }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='Основы JavaScript')" }
+        # DOM (19–22)
 
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "yield generator" }
-              - column: { name: type, value: TEXT }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='Основы JavaScript')" }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 19 }, { name: text, value: "getElementById null" }, { name: type, value: SINGLE }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 4 } ] }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 20 }, { name: text, value: "stopPropagation" }, { name: type, value: SINGLE }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 4 } ] }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 21 }, { name: text, value: "DOMContentLoaded defer async" }, { name: type, value: MULTIPLE }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 4 } ] }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 22 }, { name: text, value: "event.target" }, { name: type, value: TEXT }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 4 } ] }
 
-        # Async
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "Event Loop order" }
-              - column: { name: type, value: SINGLE }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='Асинхронность')" }
+        # Tools (23–25)
 
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "async return" }
-              - column: { name: type, value: SINGLE }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='Асинхронность')" }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 23 }, { name: text, value: "git amend" }, { name: type, value: SINGLE }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 5 } ] }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 24 }, { name: text, value: "package.json" }, { name: type, value: TEXT }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 5 } ] }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 25 }, { name: text, value: "webpack" }, { name: type, value: TEXT }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 5 } ] }
 
-        # React
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "useEffect" }
-              - column: { name: type, value: SINGLE }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='React')" }
+        # TypeScript (26–27)
 
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "setState same value" }
-              - column: { name: type, value: SINGLE }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='React')" }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 26 }, { name: text, value: "any TypeScript" }, { name: type, value: SINGLE }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 6 } ] }
+        - insert: { tableName: questions, columns: [ { name: id, valueNumeric: 27 }, { name: text, value: "union type |" }, { name: type, value: TEXT }, { name: profession_id, valueNumeric: 1 }, { name: topic_id, valueNumeric: 6 } ] }
 
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "React hooks rules" }
-              - column: { name: type, value: SINGLE }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='React')" }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "useMemo useCallback useEffect" }
-              - column: { name: type, value: MULTIPLE }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='React')" }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "Virtual DOM" }
-              - column: { name: type, value: MULTIPLE }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='React')" }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "useMemo hook" }
-              - column: { name: type, value: TEXT }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='React')" }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "JSX" }
-              - column: { name: type, value: TEXT }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='React')" }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "useRef" }
-              - column: { name: type, value: TEXT }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='React')" }
-
-        # DOM
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "getElementById null" }
-              - column: { name: type, value: SINGLE }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='DOM')" }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "stopPropagation" }
-              - column: { name: type, value: SINGLE }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='DOM')" }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "DOMContentLoaded defer async" }
-              - column: { name: type, value: MULTIPLE }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='DOM')" }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "event.target" }
-              - column: { name: type, value: TEXT }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='DOM')" }
-
-        # Tools
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "git amend" }
-              - column: { name: type, value: SINGLE }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='Инструменты')" }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "package.json" }
-              - column: { name: type, value: TEXT }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='Инструменты')" }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "webpack" }
-              - column: { name: type, value: TEXT }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='Инструменты')" }
-
-        # TS
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "any TypeScript" }
-              - column: { name: type, value: SINGLE }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='TypeScript')" }
-
-        - insert:
-            tableName: questions
-            columns:
-              - column: { name: text, value: "union type |" }
-              - column: { name: type, value: TEXT }
-              - column: { name: profession_id, valueComputed: "(SELECT id FROM professions WHERE name='Frontend-разработчик')" }
-              - column: { name: topic_id, valueComputed: "(SELECT id FROM topics WHERE name='TypeScript')" }
-
+  # ================= ANSWERS =================
 
   - changeSet:
       id: 4-seed-answer-options
       author: progrohan
       changes:
 
-        # ================= JS =================
+        # typeof null (1)
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 1 }, { name: text, value: "object" }, { name: is_correct, valueBoolean: true } ] }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 1 }, { name: text, value: "null" }, { name: is_correct, valueBoolean: false } ] }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 1 }, { name: text, value: "undefined" }, { name: is_correct, valueBoolean: false } ] }
 
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='typeof null')"
-              - column: { name: text, value: "object" }
-              - column: { name: is_correct, valueBoolean: true }
+        # [] == false (2)
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 2 }, { name: text, value: "true" }, { name: is_correct, valueBoolean: true } ] }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 2 }, { name: text, value: "false" }, { name: is_correct, valueBoolean: false } ] }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 2 }, { name: text, value: "TypeError" }, { name: is_correct, valueBoolean: false } ] }
 
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='typeof null')"
-              - column: { name: text, value: "null" }
-              - column: { name: is_correct, valueBoolean: false }
+        # this arrow (3)
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 3 }, { name: text, value: "this из внешнего лексического окружения" }, { name: is_correct, valueBoolean: true } ] }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 3 }, { name: text, value: "глобальный объект" }, { name: is_correct, valueBoolean: false } ] }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 3 }, { name: text, value: "undefined" }, { name: is_correct, valueBoolean: false } ] }
 
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='typeof null')"
-              - column: { name: text, value: "undefined" }
-              - column: { name: is_correct, valueBoolean: false }
+        # falsy (4)
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 4 }, { name: text, value: "false" }, { name: is_correct, valueBoolean: true } ] }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 4 }, { name: text, value: "0" }, { name: is_correct, valueBoolean: true } ] }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 4 }, { name: text, value: "\"\"" }, { name: is_correct, valueBoolean: true } ] }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 4 }, { name: text, value: "null" }, { name: is_correct, valueBoolean: true } ] }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 4 }, { name: text, value: "undefined" }, { name: is_correct, valueBoolean: true } ] }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 4 }, { name: text, value: "NaN" }, { name: is_correct, valueBoolean: true } ] }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 4 }, { name: text, value: "{}" }, { name: is_correct, valueBoolean: false } ] }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 4 }, { name: text, value: "[]" }, { name: is_correct, valueBoolean: false } ] }
 
-        # ---- [] == false ----
+        # closures (5)
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 5 }, { name: text, value: "Функция использует внешние переменные" }, { name: is_correct, valueBoolean: true } ] }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 5 }, { name: text, value: "Функция возвращает другую функцию" }, { name: is_correct, valueBoolean: true } ] }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 5 }, { name: text, value: "Использование var вместо let" }, { name: is_correct, valueBoolean: false } ] }
 
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='[] == false')"
-              - column: { name: text, value: "true" }
-              - column: { name: is_correct, valueBoolean: true }
+        # Event Loop (9)
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 9 }, { name: text, value: "1, 4, 3, 2" }, { name: is_correct, valueBoolean: true } ] }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 9 }, { name: text, value: "1, 2, 3, 4" }, { name: is_correct, valueBoolean: false } ] }
 
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='[] == false')"
-              - column: { name: text, value: "false" }
-              - column: { name: is_correct, valueBoolean: false }
+        # async return (10)
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 10 }, { name: text, value: "Promise<undefined>" }, { name: is_correct, valueBoolean: true } ] }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 10 }, { name: text, value: "undefined" }, { name: is_correct, valueBoolean: false } ] }
 
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='[] == false')"
-              - column: { name: text, value: "TypeError" }
-              - column: { name: is_correct, valueBoolean: false }
+        # React (12,13)
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 12 }, { name: text, value: "Компонент не перерендерится при том же значении" }, { name: is_correct, valueBoolean: true } ] }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 12 }, { name: text, value: "Всегда перерендерится" }, { name: is_correct, valueBoolean: false } ] }
 
-        # ---- this arrow ----
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 13 }, { name: text, value: "Хуки нельзя вызывать в условиях и циклах" }, { name: is_correct, valueBoolean: true } ] }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 13 }, { name: text, value: "Можно вызывать в циклах" }, { name: is_correct, valueBoolean: false } ] }
 
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='this в стрелочной функции')"
-              - column: { name: text, value: "this из внешнего лексического окружения" }
-              - column: { name: is_correct, valueBoolean: true }
+        # DOM (19,20)
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 19 }, { name: text, value: "null" }, { name: is_correct, valueBoolean: true } ] }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 19 }, { name: text, value: "TypeError" }, { name: is_correct, valueBoolean: false } ] }
 
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='this в стрелочной функции')"
-              - column: { name: text, value: "глобальный объект" }
-              - column: { name: is_correct, valueBoolean: false }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 20 }, { name: text, value: "stopPropagation" }, { name: is_correct, valueBoolean: true } ] }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 20 }, { name: text, value: "preventDefault" }, { name: is_correct, valueBoolean: false } ] }
 
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='this в стрелочной функции')"
-              - column: { name: text, value: "undefined" }
-              - column: { name: is_correct, valueBoolean: false }
-
-        # ---- falsy values ----
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='Falsy значения JS')"
-              - column: { name: text, value: "false" }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='Falsy значения JS')"
-              - column: { name: text, value: "0" }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='Falsy значения JS')"
-              - column: { name: text, value: "\"\"" }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='Falsy значения JS')"
-              - column: { name: text, value: "null" }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='Falsy значения JS')"
-              - column: { name: text, value: "undefined" }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='Falsy значения JS')"
-              - column: { name: text, value: "NaN" }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='Falsy значения JS')"
-              - column: { name: text, value: "{}" }
-              - column: { name: is_correct, valueBoolean: false }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='Falsy значения JS')"
-              - column: { name: text, value: "[]" }
-              - column: { name: is_correct, valueBoolean: false }
-
-        # ---- closures ----
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='Замыкания')"
-              - column: { name: text, value: "Функция использует переменные из внешней области видимости" }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='Замыкания')"
-              - column: { name: text, value: "Функция возвращает другую функцию" }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='Замыкания')"
-              - column: { name: text, value: "Использование var вместо let" }
-              - column: { name: is_correct, valueBoolean: false }
-
-        # ================= ASYNC =================
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='Event Loop order')"
-              - column: { name: text, value: "1, 4, 3, 2" }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='Event Loop order')"
-              - column: { name: text, value: "1, 2, 3, 4" }
-              - column: { name: is_correct, valueBoolean: false }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='async return')"
-              - column: { name: text, value: "Promise<undefined>" }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='async return')"
-              - column: { name: text, value: "undefined" }
-              - column: { name: is_correct, valueBoolean: false }
-
-        # ================= REACT =================
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='setState same value')"
-              - column: { name: text, value: "Компонент не перерендерится при идентичном значении" }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='setState same value')"
-              - column: { name: text, value: "Компонент всегда перерендерится" }
-              - column: { name: is_correct, valueBoolean: false }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='React hooks rules')"
-              - column: { name: text, value: "Хуки нельзя вызывать внутри условий и циклов" }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='React hooks rules')"
-              - column: { name: text, value: "Хуки можно вызывать в циклах" }
-              - column: { name: is_correct, valueBoolean: false }
-
-        # ================= DOM =================
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='getElementById null')"
-              - column: { name: text, value: "null" }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='getElementById null')"
-              - column: { name: text, value: "TypeError" }
-              - column: { name: is_correct, valueBoolean: false }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='stopPropagation')"
-              - column: { name: text, value: "stopPropagation" }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='stopPropagation')"
-              - column: { name: text, value: "preventDefault" }
-              - column: { name: is_correct, valueBoolean: false }
-
-        # ================= TS =================
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='any TypeScript')"
-              - column: { name: text, value: "any" }
-              - column: { name: is_correct, valueBoolean: true }
-
-        - insert:
-            tableName: answer_options
-            columns:
-              - column:
-                  name: question_id
-                  valueComputed: "(SELECT id FROM questions WHERE text='any TypeScript')"
-              - column: { name: text, value: "unknown" }
-              - column: { name: is_correct, valueBoolean: false }
+        # TypeScript (26)
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 26 }, { name: text, value: "any" }, { name: is_correct, valueBoolean: true } ] }
+        - insert: { tableName: answer_options, columns: [ { name: question_id, valueNumeric: 26 }, { name: text, value: "unknown" }, { name: is_correct, valueBoolean: false } ] }
