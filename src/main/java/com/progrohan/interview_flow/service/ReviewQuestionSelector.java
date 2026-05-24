@@ -1,16 +1,14 @@
 package com.progrohan.interview_flow.service;
 
-import com.progrohan.interview_flow.entity.Question;
-import com.progrohan.interview_flow.entity.UserQuestionState;
+
 import com.progrohan.interview_flow.repository.QuestionRepository;
 import com.progrohan.interview_flow.repository.UserQuestionStateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
+
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,7 +20,7 @@ public class ReviewQuestionSelector {
 
     public List<Long> selectQuestions(Long userId, Long professionId, int totalQuestions) {
 
-        List<Long> result = stateRepository.findDueQuestionsIds(userId, professionId, Instant.now(), (Pageable) PageRequest.of(0, totalQuestions));
+        List<Long> result = stateRepository.findDueQuestionsIds(userId, professionId, Instant.now(), PageRequest.of(0, totalQuestions));
 
         int remaining = totalQuestions - result.size();
 
