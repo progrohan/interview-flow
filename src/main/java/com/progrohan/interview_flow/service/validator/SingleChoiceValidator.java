@@ -5,6 +5,8 @@ import com.progrohan.interview_flow.entity.Question;
 import com.progrohan.interview_flow.entity.QuestionType;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class SingleChoiceValidator implements AnswerValidator {
 
@@ -16,7 +18,9 @@ public class SingleChoiceValidator implements AnswerValidator {
     @Override
     public ValidationResultDto validate(Question question, Object answer, boolean hasNext) {
 
-        Long selectedOptionId = (Long) answer;
+        Long selectedOptionId  = ((List<?>) answer).stream()
+                .map(v -> Long.valueOf(v.toString()))
+                .toList().getFirst();
 
         boolean correct = question.getAnswerOptions()
                 .stream()

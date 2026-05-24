@@ -23,7 +23,9 @@ public class MultipleChoiceValidator implements AnswerValidator {
     public ValidationResultDto validate(Question question, Object answer, boolean hasNext) {
 
         @SuppressWarnings("unchecked")
-        List<Long> selectedIds = (List<Long>) answer;
+        List<Long> selectedIds = ((List<?>) answer).stream()
+                .map(v -> Long.valueOf(v.toString()))
+                .toList();
 
         Set<Long> correctIds = question.getAnswerOptions()
                 .stream()
