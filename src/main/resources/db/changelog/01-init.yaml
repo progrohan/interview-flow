@@ -527,7 +527,7 @@ databaseChangeLog:
               - column:
                   name: question_id
                   valueComputed: "(SELECT id FROM questions WHERE text='typeof null')"
-              - column: { name: text, value: object }
+              - column: { name: text, value: "object" }
               - column: { name: is_correct, valueBoolean: true }
 
         - insert:
@@ -545,17 +545,18 @@ databaseChangeLog:
               - column:
                   name: question_id
                   valueComputed: "(SELECT id FROM questions WHERE text='typeof null')"
-              - column: { name: text, value: undefined }
+              - column: { name: text, value: "undefined" }
               - column: { name: is_correct, valueBoolean: false }
 
         # ---- [] == false ----
+
         - insert:
             tableName: answer_options
             columns:
               - column:
                   name: question_id
                   valueComputed: "(SELECT id FROM questions WHERE text='[] == false')"
-              - column: { name: text, value: true }
+              - column: { name: text, value: "true" }
               - column: { name: is_correct, valueBoolean: true }
 
         - insert:
@@ -564,7 +565,7 @@ databaseChangeLog:
               - column:
                   name: question_id
                   valueComputed: "(SELECT id FROM questions WHERE text='[] == false')"
-              - column: { name: text, value: false }
+              - column: { name: text, value: "false" }
               - column: { name: is_correct, valueBoolean: false }
 
         - insert:
@@ -573,17 +574,18 @@ databaseChangeLog:
               - column:
                   name: question_id
                   valueComputed: "(SELECT id FROM questions WHERE text='[] == false')"
-              - column: { name: text, value: TypeError }
+              - column: { name: text, value: "TypeError" }
               - column: { name: is_correct, valueBoolean: false }
 
         # ---- this arrow ----
+
         - insert:
             tableName: answer_options
             columns:
               - column:
                   name: question_id
                   valueComputed: "(SELECT id FROM questions WHERE text='this в стрелочной функции')"
-              - column: { name: text, value: "this из внешней функции" }
+              - column: { name: text, value: "this из внешнего лексического окружения" }
               - column: { name: is_correct, valueBoolean: true }
 
         - insert:
@@ -604,14 +606,15 @@ databaseChangeLog:
               - column: { name: text, value: "undefined" }
               - column: { name: is_correct, valueBoolean: false }
 
-        # ---- falsy ----
+        # ---- falsy values ----
+
         - insert:
             tableName: answer_options
             columns:
               - column:
                   name: question_id
                   valueComputed: "(SELECT id FROM questions WHERE text='Falsy значения JS')"
-              - column: { name: text, value: 0 }
+              - column: { name: text, value: "false" }
               - column: { name: is_correct, valueBoolean: true }
 
         - insert:
@@ -620,7 +623,16 @@ databaseChangeLog:
               - column:
                   name: question_id
                   valueComputed: "(SELECT id FROM questions WHERE text='Falsy значения JS')"
-              - column: { name: text, value: "" }
+              - column: { name: text, value: "0" }
+              - column: { name: is_correct, valueBoolean: true }
+
+        - insert:
+            tableName: answer_options
+            columns:
+              - column:
+                  name: question_id
+                  valueComputed: "(SELECT id FROM questions WHERE text='Falsy значения JS')"
+              - column: { name: text, value: "\"\"" }
               - column: { name: is_correct, valueBoolean: true }
 
         - insert:
@@ -638,7 +650,7 @@ databaseChangeLog:
               - column:
                   name: question_id
                   valueComputed: "(SELECT id FROM questions WHERE text='Falsy значения JS')"
-              - column: { name: text, value: undefined }
+              - column: { name: text, value: "undefined" }
               - column: { name: is_correct, valueBoolean: true }
 
         - insert:
@@ -647,7 +659,16 @@ databaseChangeLog:
               - column:
                   name: question_id
                   valueComputed: "(SELECT id FROM questions WHERE text='Falsy значения JS')"
-              - column: { name: text, value: { } }
+              - column: { name: text, value: "NaN" }
+              - column: { name: is_correct, valueBoolean: true }
+
+        - insert:
+            tableName: answer_options
+            columns:
+              - column:
+                  name: question_id
+                  valueComputed: "(SELECT id FROM questions WHERE text='Falsy значения JS')"
+              - column: { name: text, value: "{}" }
               - column: { name: is_correct, valueBoolean: false }
 
         - insert:
@@ -656,17 +677,18 @@ databaseChangeLog:
               - column:
                   name: question_id
                   valueComputed: "(SELECT id FROM questions WHERE text='Falsy значения JS')"
-              - column: { name: text, value: [ ] }
+              - column: { name: text, value: "[]" }
               - column: { name: is_correct, valueBoolean: false }
 
         # ---- closures ----
+
         - insert:
             tableName: answer_options
             columns:
               - column:
                   name: question_id
                   valueComputed: "(SELECT id FROM questions WHERE text='Замыкания')"
-              - column: { name: text, value: "Функция использует внешние переменные" }
+              - column: { name: text, value: "Функция использует переменные из внешней области видимости" }
               - column: { name: is_correct, valueBoolean: true }
 
         - insert:
@@ -771,7 +793,7 @@ databaseChangeLog:
               - column:
                   name: question_id
                   valueComputed: "(SELECT id FROM questions WHERE text='getElementById null')"
-              - column: { name: text, value: TypeError }
+              - column: { name: text, value: "null" }
               - column: { name: is_correct, valueBoolean: true }
 
         - insert:
@@ -780,7 +802,7 @@ databaseChangeLog:
               - column:
                   name: question_id
                   valueComputed: "(SELECT id FROM questions WHERE text='getElementById null')"
-              - column: { name: text, value: "null" }
+              - column: { name: text, value: "TypeError" }
               - column: { name: is_correct, valueBoolean: false }
 
         - insert:
@@ -789,7 +811,7 @@ databaseChangeLog:
               - column:
                   name: question_id
                   valueComputed: "(SELECT id FROM questions WHERE text='stopPropagation')"
-              - column: { name: text, value: stopPropagation }
+              - column: { name: text, value: "stopPropagation" }
               - column: { name: is_correct, valueBoolean: true }
 
         - insert:
@@ -798,7 +820,7 @@ databaseChangeLog:
               - column:
                   name: question_id
                   valueComputed: "(SELECT id FROM questions WHERE text='stopPropagation')"
-              - column: { name: text, value: preventDefault }
+              - column: { name: text, value: "preventDefault" }
               - column: { name: is_correct, valueBoolean: false }
 
         # ================= TS =================
@@ -809,7 +831,7 @@ databaseChangeLog:
               - column:
                   name: question_id
                   valueComputed: "(SELECT id FROM questions WHERE text='any TypeScript')"
-              - column: { name: text, value: any }
+              - column: { name: text, value: "any" }
               - column: { name: is_correct, valueBoolean: true }
 
         - insert:
@@ -818,5 +840,5 @@ databaseChangeLog:
               - column:
                   name: question_id
                   valueComputed: "(SELECT id FROM questions WHERE text='any TypeScript')"
-              - column: { name: text, value: unknown }
+              - column: { name: text, value: "unknown" }
               - column: { name: is_correct, valueBoolean: false }
