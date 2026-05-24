@@ -327,21 +327,21 @@ databaseChangeLog:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 1 }
-              - column: { name: text, value: object }
+              - column: { name: text, value: "object" }
               - column: { name: is_correct, valueBoolean: true }
 
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 1 }
-              - column: { name: text, value: null }
+              - column: { name: text, value: "null" }
               - column: { name: is_correct, valueBoolean: false }
 
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 1 }
-              - column: { name: text, value: undefined }
+              - column: { name: text, value: "undefined" }
               - column: { name: is_correct, valueBoolean: false }
 
 
@@ -391,7 +391,7 @@ databaseChangeLog:
               - column: { name: is_correct, valueBoolean: false }
 
 
-        # ========== Q4 (FIXED - NO NULL TEXT) ==========
+        # ========== Q4 ==========
         - insert:
             tableName: answer_options
             columns:
