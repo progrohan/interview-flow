@@ -322,23 +322,30 @@ databaseChangeLog:
       author: progrohan
       changes:
 
-        # question 1
+        # ========== Q1 ==========
         - insert:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 1 }
-              - column: { name: text, value: "object" }
+              - column: { name: text, value: object }
               - column: { name: is_correct, valueBoolean: true }
 
+        - insert:
+            tableName: answer_options
+            columns:
               - column: { name: question_id, valueNumeric: 1 }
-              - column: { name: text, value: "null" }
+              - column: { name: text, value: null }
               - column: { name: is_correct, valueBoolean: false }
 
+        - insert:
+            tableName: answer_options
+            columns:
               - column: { name: question_id, valueNumeric: 1 }
-              - column: { name: text, value: "undefined" }
+              - column: { name: text, value: undefined }
               - column: { name: is_correct, valueBoolean: false }
 
-        # question 2
+
+        # ========== Q2 ==========
         - insert:
             tableName: answer_options
             columns:
@@ -360,7 +367,8 @@ databaseChangeLog:
               - column: { name: text, value: "TypeError" }
               - column: { name: is_correct, valueBoolean: false }
 
-        # question 3
+
+        # ========== Q3 ==========
         - insert:
             tableName: answer_options
             columns:
@@ -382,7 +390,8 @@ databaseChangeLog:
               - column: { name: text, value: "undefined" }
               - column: { name: is_correct, valueBoolean: false }
 
-        # question 4 (falsy)
+
+        # ========== Q4 (FIXED - NO NULL TEXT) ==========
         - insert:
             tableName: answer_options
             columns:
@@ -401,7 +410,7 @@ databaseChangeLog:
             tableName: answer_options
             columns:
               - column: { name: question_id, valueNumeric: 4 }
-              - column: { name: text, value: "\"\"" }
+              - column: { name: text, value: "" }
               - column: { name: is_correct, valueBoolean: true }
 
         - insert:
@@ -439,7 +448,8 @@ databaseChangeLog:
               - column: { name: text, value: "[]" }
               - column: { name: is_correct, valueBoolean: false }
 
-        # question 5 (closures)
+
+        # ========== Q5 ==========
         - insert:
             tableName: answer_options
             columns:
@@ -461,7 +471,8 @@ databaseChangeLog:
               - column: { name: text, value: "Использование var вместо let" }
               - column: { name: is_correct, valueBoolean: false }
 
-        # question 9 (event loop)
+
+        # ========== Q9 ==========
         - insert:
             tableName: answer_options
             columns:
@@ -476,7 +487,8 @@ databaseChangeLog:
               - column: { name: text, value: "1, 2, 3, 4" }
               - column: { name: is_correct, valueBoolean: false }
 
-        # question 10 (async)
+
+        # ========== Q10 ==========
         - insert:
             tableName: answer_options
             columns:
@@ -491,7 +503,8 @@ databaseChangeLog:
               - column: { name: text, value: "undefined" }
               - column: { name: is_correct, valueBoolean: false }
 
-        # question 12
+
+        # ========== Q12 ==========
         - insert:
             tableName: answer_options
             columns:
@@ -506,7 +519,8 @@ databaseChangeLog:
               - column: { name: text, value: "Всегда перерендерится" }
               - column: { name: is_correct, valueBoolean: false }
 
-        # question 13
+
+        # ========== Q13 ==========
         - insert:
             tableName: answer_options
             columns:
@@ -521,7 +535,8 @@ databaseChangeLog:
               - column: { name: text, value: "Хуки можно вызывать в циклах" }
               - column: { name: is_correct, valueBoolean: false }
 
-        # question 19
+
+        # ========== Q19 ==========
         - insert:
             tableName: answer_options
             columns:
@@ -536,7 +551,8 @@ databaseChangeLog:
               - column: { name: text, value: "TypeError" }
               - column: { name: is_correct, valueBoolean: false }
 
-        # question 20
+
+        # ========== Q20 ==========
         - insert:
             tableName: answer_options
             columns:
@@ -551,7 +567,8 @@ databaseChangeLog:
               - column: { name: text, value: "preventDefault" }
               - column: { name: is_correct, valueBoolean: false }
 
-        # question 26
+
+        # ========== Q26 ==========
         - insert:
             tableName: answer_options
             columns:
