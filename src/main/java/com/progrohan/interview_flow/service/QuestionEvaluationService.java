@@ -27,6 +27,15 @@ public class QuestionEvaluationService {
                 }
             }
         }
+
+        for (Map.Entry<QuestionType, AnswerValidator> entry : validators.entrySet()) {
+
+            System.out.println(
+                    entry.getKey() + " -> " +
+                    entry.getValue().getClass().getSimpleName()
+            );
+        }
+
     }
 
     public ValidationResultDto validate(Question question, Object answer, boolean hasNext) {
