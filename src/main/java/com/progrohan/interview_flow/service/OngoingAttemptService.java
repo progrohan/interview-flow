@@ -75,8 +75,7 @@ public class OngoingAttemptService {
     public ValidationResultDto validateAnswer(UUID uuid, Long userId, UserAnswer userAnswer) {
 
         OngoingAttempt attempt = getOngoingAttempt(uuid);
-        int currentQuestionIdx = attempt.getCurrentQuestionIndex();
-        Long questionId = attempt.getQuestionIds().get(currentQuestionIdx);
+        Long questionId = userAnswer.getQuestionId();
 
         Question question = questionService.findEntityById(questionId);
 
