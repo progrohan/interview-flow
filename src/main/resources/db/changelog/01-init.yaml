@@ -536,7 +536,7 @@ databaseChangeLog:
               - column:
                   name: question_id
                   valueComputed: "(SELECT id FROM questions WHERE text='typeof null')"
-              - column: { name: text, value: null }
+              - column: { name: text, value: "null" }
               - column: { name: is_correct, valueBoolean: false }
 
         - insert:
@@ -629,7 +629,7 @@ databaseChangeLog:
               - column:
                   name: question_id
                   valueComputed: "(SELECT id FROM questions WHERE text='Falsy значения JS')"
-              - column: { name: text, value: null }
+              - column: { name: text, value: "null" }
               - column: { name: is_correct, valueBoolean: true }
 
         - insert:
@@ -780,7 +780,7 @@ databaseChangeLog:
               - column:
                   name: question_id
                   valueComputed: "(SELECT id FROM questions WHERE text='getElementById null')"
-              - column: { name: text, value: null }
+              - column: { name: text, value: "null" }
               - column: { name: is_correct, valueBoolean: false }
 
         - insert:
