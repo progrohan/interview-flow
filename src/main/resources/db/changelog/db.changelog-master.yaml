@@ -1,3 +1,17 @@
 databaseChangeLog:
   - include:
       file: db/changelog/01-init.yaml
+  - include:
+      file: db/changelog/seed/01-professions.sql
+
+  - include:
+      file: db/changelog/seed/02-topics.sql
+
+  - include:
+      file: db/changelog/seed/03-questions.sql
+
+  - include:
+      file: db/changelog/seed/04-answer-options.sql
+
+  - include:
+      file: db/changelog/seed/05-text-answer-rules.sql
