@@ -7,6 +7,7 @@ import com.progrohan.interview_flow.dto.QuestionResponseDto;
 import com.progrohan.interview_flow.dto.SafeQuestionDto;
 import com.progrohan.interview_flow.dto.TopicMistakeDto;
 import com.progrohan.interview_flow.exception.AttemptNotEndedException;
+import com.progrohan.interview_flow.exception.NoQuestionsException;
 import com.progrohan.interview_flow.exception.ResourceNotFoundException;
 import com.progrohan.interview_flow.mapper.SafeQuestionMapper;
 import com.progrohan.interview_flow.model.AttemptStatus;
@@ -53,12 +54,15 @@ public class OngoingAttemptService {
     public UUID createOngoingAttempt(Long professionId, Long userId) {
 
         UUID uuid = UUID.randomUUID();
+        List<Long> questionIds = reviewQuestionSelector.selectQuestions(userId, professionId, 7);
+
+        if(questionIds.isEmpty()) throw new NoQuestionsException("No questions to solve!");
 
         OngoingAttempt attempt = OngoingAttempt
                 .builder()
                 .id(uuid)
                 .professionId(professionId)
-                .questionIds(reviewQuestionSelector.selectQuestions(userId, professionId, 7))
+                .questionIds(questionIds)
                 .currentQuestionIndex(0)
                 .answers(new HashMap<>())
                 .status(AttemptStatus.ONGOING)
